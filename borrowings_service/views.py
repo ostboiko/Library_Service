@@ -1,20 +1,19 @@
-from borrowings_service.serializers import (
-    BorrowingListSerializer,
-    BorrowingDetailSerializer,
-    BorrowingCreateSerializer,
-    BorrowingReturnSerializer
-)
-from rest_framework import viewsets, status, exceptions
+from rest_framework import exceptions, status, viewsets
 from rest_framework.decorators import action
-from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+
 from book_service.models import Book
 from borrowings_service.models import Borrowing
+from borrowings_service.serializers import (BorrowingCreateSerializer,
+                                            BorrowingDetailSerializer,
+                                            BorrowingListSerializer,
+                                            BorrowingReturnSerializer)
 
 
 class BorrowingViewSet(viewsets.ModelViewSet):
     queryset = Borrowing.objects.select_related("user", "book")
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         user = self.request.user
@@ -43,7 +42,9 @@ class BorrowingViewSet(viewsets.ModelViewSet):
         methods=["PATCH"],
         detail=True,
         url_path="return-borrowing",
-        permission_classes=[IsAuthenticated, ],
+        permission_classes=[
+            IsAuthenticated,
+        ],
     )
     def return_borrowing(self, request, pk=None):
 
@@ -55,7 +56,9 @@ class BorrowingViewSet(viewsets.ModelViewSet):
         if borrowing.actual_return_date:
             raise ValueError("Borrowing can't be return more than once!")
 
-        serializer = BorrowingReturnSerializer(borrowing, data=request.data, partial=True)
+        serializer = BorrowingReturnSerializer(
+            borrowing, data=request.data, partial=True
+        )
 
         if serializer.is_valid():
             book = borrowing.book
@@ -70,7 +73,9 @@ class BorrowingViewSet(viewsets.ModelViewSet):
         methods=["POST"],
         detail=False,
         url_path="create-borrowing",
-        permission_classes=[IsAuthenticated, ],
+        permission_classes=[
+            IsAuthenticated,
+        ],
     )
     def create_borrowing(self, request):
         serializer = BorrowingCreateSerializer(data=request.data)

@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from borrowings_service.models import Borrowing
 
 from book_service.serializers import BookSerializer
+from borrowings_service.models import Borrowing
 
 
 class BorrowingListSerializer(serializers.ModelSerializer):
@@ -19,7 +19,7 @@ class BorrowingListSerializer(serializers.ModelSerializer):
             "actual_return_date",
             "book_title",
             "book_author",
-            "book_inventory"
+            "book_inventory",
         )
 
 
@@ -34,7 +34,7 @@ class BorrowingDetailSerializer(serializers.ModelSerializer):
             "expected_return_date",
             "expected_return_date",
             "actual_return_date",
-            "book"
+            "book",
         )
 
 

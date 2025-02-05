@@ -1,6 +1,7 @@
 from django.db import models
-from library_service.settings import AUTH_USER_MODEL
+
 from book_service.models import Book
+from library_service.settings import AUTH_USER_MODEL
 
 
 class Borrowing(models.Model):
